@@ -11,6 +11,9 @@ Released under the Apache 2.0 licence
 Usage:
 ------
 
+Before you can use any of the concat features you should include the class
+concat::setup somewhere on your node first.
+
 If you wanted a /etc/motd file that listed all the major modules
 on the machine.  And that would be maintained automatically even
 if you just remove the include lines for other modules you could
