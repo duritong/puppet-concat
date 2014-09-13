@@ -17,6 +17,7 @@ describe 'concat::fragment', :type => :define do
     concatdir        = '/var/lib/puppet/concat'
     fragdir          = "#{concatdir}/#{safe_target_name}"
     id               = 'root'
+    gid              = 'root'
     if p[:ensure] == 'absent'
       safe_ensure = p[:ensure] 
     else
@@ -24,7 +25,7 @@ describe 'concat::fragment', :type => :define do
     end
 
     let(:title) { title }
-    let(:facts) {{ :concat_basedir => concatdir, :id => id }}
+    let(:facts) {{ :concat_basedir => concatdir, :id => id, :gid => gid }}
     let(:params) { params }
     let(:pre_condition) do
       "concat{ '#{p[:target]}': }"
@@ -36,6 +37,7 @@ describe 'concat::fragment', :type => :define do
       should contain_file("#{fragdir}/fragments/#{p[:order]}_#{safe_name}").with({
         :ensure  => safe_ensure,
         :owner   => id,
+        :group   => gid,
         :mode    => '0640',
         :source  => p[:source],
         :content => p[:content],
