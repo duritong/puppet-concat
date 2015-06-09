@@ -153,9 +153,10 @@ Puppet::Type.newtype(:concat_file) do
     fragment_content
   end
 
-  def generate
+  def eval_generate
     file_opts = {
       :ensure => self[:ensure] == :absent ? :absent : :file,
+      :content => self.should_content,
     }
 
     [:path, :owner, :group, :mode, :replace, :backup].each do |param|
@@ -165,14 +166,5 @@ Puppet::Type.newtype(:concat_file) do
     end
 
     [Puppet::Type.type(:file).new(file_opts)]
-  end
-
-  def eval_generate
-    content = should_content
-
-    if !content.nil? and !content.empty?
-      catalog.resource("File[#{self[:path]}]")[:content] = content
-    end
-    []
   end
 end
